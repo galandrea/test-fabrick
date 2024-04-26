@@ -1,1 +1,59 @@
-spring.application.name=test-fabrick
+spring:
+  application:
+    name: test-fabrick
+  main:
+    allow-bean-definition-overriding: true
+
+  h2:
+    console.enabled: true
+  datasource:
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.h2.Driver}
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:testdb}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:password}
+    hikari:
+      dialect: ${SPRING_DATASOURCE_HIKARI_DIALECT:org.hibernate.dialect.H2Dialect}
+      auto-commit: true
+      idle-timeout: 10000
+      minimum-idle: 5
+      maximum-pool-size: 20
+      max-life-time: 30000
+      pool-name: HikariCP-TEST-FABRICK
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        generate_statistics: false
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+  okhttp:
+    enabled: true
+  httpclient:
+    disable-ssl-validation: true
+  autoconfiguration:
+    jackson:
+      enabled: true
+
+server:
+  port: 8080
+  servlet:
+    context-path: /test-fabrick
+
+app:
+  version: @project.version@
+
+logging:
+  level:
+    it:
+      gala: ${LOGGING_LEVEL:INFO}
