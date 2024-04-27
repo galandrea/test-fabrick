@@ -1,0 +1,7 @@
+api:
+  fabrick:
+    base-url: ${API_FABRICK_BASE_URL}
+    auth-schema: ${API_FABRICK_AUTH_SCHEMA}
+    api-key: ${API_FABRICK_API_KEY}
+    account-id: ${API_FABRICK_ACCOUNT_ID}
+    client-timezone: ${API_FABRICK_CLIENT_TIMEZONE:Europe/Rome}

@@ -4,6 +4,9 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
+  config:
+    import: classpath:api_fabrick_config.yml
+
   h2:
     console.enabled: true
   datasource:
@@ -12,7 +15,7 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:sa}
     password: ${SPRING_DATASOURCE_PASSWORD:password}
     hikari:
-      dialect: ${SPRING_DATASOURCE_HIKARI_DIALECT:org.hibernate.dialect.H2Dialect}
+      dialect: ${SPRING_DATASOURCE_DIALECT:org.hibernate.dialect.H2Dialect}
       auto-commit: true
       idle-timeout: 10000
       minimum-idle: 5
@@ -26,7 +29,7 @@ spring:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: ${SPRING_DATASOURCE_DIALECT:org.hibernate.dialect.H2Dialect}
         format_sql: true
         generate_statistics: false
 
