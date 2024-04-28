@@ -1,8 +1,10 @@
 package it.gala.test.fabrick.service;
 
+import it.gala.test.fabrick.client.feign.model.AccountMoneyTransfersRequest;
 import it.gala.test.fabrick.exception.ApplicationException;
 import it.gala.test.fabrick.service.mapper.AccountMapper;
 import it.gala.test.fabrick.service.model.AccountBalanceDTO;
+import it.gala.test.fabrick.service.model.AccountMoneyTransferDTO;
 import it.gala.test.fabrick.service.model.AccountTransactionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,6 +40,12 @@ public class AccountService {
 
         accountTransactionService.persistMany(new ArrayList<>(transactions));
         return transactions;
+    }
+
+    public AccountMoneyTransferDTO createMoneyTransfer(AccountMoneyTransfersRequest request) {
+        return accountMapper.accountMoneyTransferToDto(
+                apiFabrickConsumerService.createMoneyTransfer(request)
+        );
     }
 
 }

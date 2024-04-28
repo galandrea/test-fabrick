@@ -2,6 +2,8 @@ package it.gala.test.fabrick.service;
 
 import it.gala.test.fabrick.client.feign.FabrickFeignClient;
 import it.gala.test.fabrick.client.feign.model.AccountBalance;
+import it.gala.test.fabrick.client.feign.model.AccountMoneyTransfer;
+import it.gala.test.fabrick.client.feign.model.AccountMoneyTransfersRequest;
 import it.gala.test.fabrick.client.feign.model.AccountTransactions;
 import it.gala.test.fabrick.client.feign.model.FabrickResponse;
 import it.gala.test.fabrick.configuration.ApiFabrickConfiguration;
@@ -35,6 +37,19 @@ public class ApiFabrickConsumerService {
                 to,
                 apiFabrickConfiguration.getAuthSchema(),
                 apiFabrickConfiguration.getApiKey()
+        );
+
+        return response.getPayload();
+    }
+
+    public AccountMoneyTransfer createMoneyTransfer(AccountMoneyTransfersRequest requestBody) {
+
+        FabrickResponse<AccountMoneyTransfer> response = fabrickFeignClient.createMoneyTransfer(
+                apiFabrickConfiguration.getAccountId(),
+                requestBody,
+                apiFabrickConfiguration.getAuthSchema(),
+                apiFabrickConfiguration.getApiKey(),
+                apiFabrickConfiguration.getClientTimeZone()
         );
 
         return response.getPayload();
