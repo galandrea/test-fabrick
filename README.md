@@ -1,6 +1,8 @@
 # Test Fabrick
 A sample SpringBoot project for Fabrick API integration test
 [https://developers.fabrick.com/hc/it](https://developers.fabrick.com/hc/it)
+
+version 1.0.0 available on branch: release/1.0.0
 ## Environments
 
     API_FABRICK_BASE_URL
@@ -17,3 +19,4 @@ A sample SpringBoot project for Fabrick API integration test
     H2 user: sa
     H2 password: password
     H2 JDBC URL: jdbc:h2:mem:testdb
+
