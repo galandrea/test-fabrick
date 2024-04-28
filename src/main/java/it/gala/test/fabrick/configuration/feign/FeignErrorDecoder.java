@@ -3,6 +3,7 @@ package it.gala.test.fabrick.configuration.feign;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import feign.codec.ErrorDecoder;
+import it.gala.test.fabrick.client.feign.model.FabrickResponse;
 import it.gala.test.fabrick.exception.ApplicationException;
 import org.slf4j.helpers.MessageFormatter;
 import org.springframework.http.HttpHeaders;
@@ -12,7 +13,7 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class FeignErrorDecoder implements ErrorDecoder {
 
@@ -29,17 +30,25 @@ public class FeignErrorDecoder implements ErrorDecoder {
 
                 try (InputStream bodyIs = response.body().asInputStream()) {
                     ObjectMapper mapper = new ObjectMapper();
-                    Map<String,Object> resMap = mapper.readValue(bodyIs, Map.class);
-                    String resMessage = (String)resMap.get("message");
-                    if(resMessage != null) message = resMessage;
+                    FabrickResponse<?> resBody = mapper.readValue(bodyIs, FabrickResponse.class);
+                    return handleResponse(responseStatus, resBody);
 
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    return new ApplicationException(responseStatus, message);
                 }
 
             }
         }
 
         return new ApplicationException(responseStatus, message);
+    }
+
+    private ApplicationException handleResponse(HttpStatus httpStatus, FabrickResponse<?> response) {
+        return new ApplicationException(
+                httpStatus,
+                response.getErrors().stream()
+                        .map(e -> "[code:\"" + e.getCode() + "\" description:\"" + e.getDescription() + "\" params:\"" + e.getParams() + "\"]")
+                        .collect(Collectors.joining(";"))
+        );
     }
 }
