@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -31,10 +32,11 @@ public class ApiFabrickConsumerService {
 
     public AccountTransactions getAccountTransactionsByDateRange(LocalDateTime from, LocalDateTime to) {
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'mm:hh:ss.SSSZ");
         FabrickResponse<AccountTransactions> response = fabrickFeignClient.getAccountTransactionsByAccountIdAndDateRange(
                 apiFabrickConfiguration.getAccountId(),
-                from,
-                to,
+                from.format(formatter),
+                to.format(formatter),
                 apiFabrickConfiguration.getAuthSchema(),
                 apiFabrickConfiguration.getApiKey()
         );

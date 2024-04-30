@@ -44,8 +44,8 @@ public interface FabrickFeignClient {
     FabrickResponse<AccountTransactions> getAccountTransactionsByAccountIdAndDateRange(
             @PathVariable("account-id") String accountId,
 
-            @RequestParam("fromAccountingDate") LocalDateTime from,
-            @RequestParam("toAccountingDate") LocalDateTime to,
+            @RequestParam("fromAccountingDate") String from,
+            @RequestParam("toAccountingDate") String to,
 
             @RequestHeader(name = "Auth-Schema") String authSchema,
             @RequestHeader(name = "apiKey") String apiKey
